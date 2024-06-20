@@ -30,8 +30,8 @@ pipeline {
         stage('Download docker compose') {
             steps {
                 script {
-                    sh "curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose"
-                    sh 'chmod +x /usr/local/bin/docker-compose'
+                    sh "sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose"
+                    sh 'sudo chmod +x /usr/local/bin/docker-compose'
                 }
             }
         }
