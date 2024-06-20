@@ -36,19 +36,19 @@ pipeline {
             }
         }
 
-        stage('Build docker-compose') {
-            steps {
-                // Build Docker Compose services
-                bat 'docker-compose build'
-            }
-        }
-
-        stage('Run docker-compose') {
-            steps {
-                // Start Docker Compose services
-                bat 'docker-compose up -d'
-            }
-        }
+//         stage('Build docker-compose') {
+//             steps {
+//                 // Build Docker Compose services
+//                 bat 'docker-compose build'
+//             }
+//         }
+//
+//         stage('Run docker-compose') {
+//             steps {
+//                 // Start Docker Compose services
+//                 bat 'docker-compose up -d'
+//             }
+//         }
 //
 //         stage('Run E2E tests') {
 //             steps {
