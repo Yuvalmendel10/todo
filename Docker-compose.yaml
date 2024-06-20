@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  todo_image:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+
