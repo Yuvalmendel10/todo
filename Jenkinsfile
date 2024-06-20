@@ -27,7 +27,7 @@ pipeline {
 //         }
 
 
-            stage('Download docker compose') {
+        stage('Download docker compose') {
             steps {
                 script {
                     bat "curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-Windows-x86_64.exe -o C:\\docker-compose.exe"
