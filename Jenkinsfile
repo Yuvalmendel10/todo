@@ -4,7 +4,7 @@ pipeline {
     environment {
         FLASK_APP = 'app.py'
         CHROMEDRIVER_PATH = './chromedriver'
-        DOCKER_HUB_CREDENTIALS = credentials('dockerhub')
+//         DOCKER_HUB_CREDENTIALS = credentials('dockerhub')
     }
 
     triggers {
@@ -61,23 +61,23 @@ pipeline {
             }
         }
 
-        stage('Login to Docker Hub') {
-            steps {
-                // Login to Docker Hub
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    bat """
-                    echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin
-                    """
-                }
-            }
-        }
-
-        stage('Upload image to Docker Hub') {
-            steps {
-                // Push Docker image to Docker Hub
-                bat 'docker-compose push'
-            }
-        }
+//         stage('Login to Docker Hub') {
+//             steps {
+//                 // Login to Docker Hub
+//                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+//                     bat """
+//                     echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin
+//                     """
+//                 }
+//             }
+//         }
+//
+//         stage('Upload image to Docker Hub') {
+//             steps {
+//                 // Push Docker image to Docker Hub
+//                 bat 'docker-compose push'
+//             }
+//         }
     }
     
     post {
