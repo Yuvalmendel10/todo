@@ -1,11 +1,12 @@
 pipeline {
     agent any
     
-//     environment {
+    environment {
+        DOCKER_COMPOSE_VERSION = '1.26.0'
 //         FLASK_APP = 'app.py'
 //         CHROMEDRIVER_PATH = './chromedriver'
 //         DOCKER_HUB_CREDENTIALS = credentials('dockerhub')
-//     }
+    }
 
     triggers {
         pollSCM('* * * * *')
