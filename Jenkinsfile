@@ -19,33 +19,33 @@ pipeline {
             }
         }
 
-        stage('Install dependencies') {
+//         stage('Install dependencies') {
+//             steps {
+//                 // Install Python dependencies from requirements.txt
+//                 bat 'pip install --no-cache-dir -r requirements.txt'
+//             }
+//         }
+
+        stage('Download docker-compose') {
             steps {
-                // Install Python dependencies from requirements.txt
-                bat 'pip install --no-cache-dir -r requirements.txt'
+                // Download docker-compose file
+                bat 'curl -o docker-compose.yaml https://raw.githubusercontent.com/Yuvalmendel10/todo/main/docker-compose.yaml'
             }
         }
 
-//         stage('Download docker-compose') {
-//             steps {
-//                 // Download docker-compose file
-//                 bat 'curl -o docker-compose.yaml https://raw.githubusercontent.com/Yuvalmendel10/todo/main/docker-compose.yaml'
-//             }
-//         }
-//
-//         stage('Build docker-compose') {
-//             steps {
-//                 // Build Docker Compose services
-//                 bat 'docker-compose build'
-//             }
-//         }
-//
-//         stage('Run docker-compose') {
-//             steps {
-//                 // Start Docker Compose services
-//                 bat 'docker-compose up -d'
-//             }
-//         }
+        stage('Build docker-compose') {
+            steps {
+                // Build Docker Compose services
+                bat 'docker-compose build'
+            }
+        }
+
+        stage('Run docker-compose') {
+            steps {
+                // Start Docker Compose services
+                bat 'docker-compose up -d'
+            }
+        }
 //
 //         stage('Run E2E tests') {
 //             steps {
