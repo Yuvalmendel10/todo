@@ -4,7 +4,7 @@ pipeline {
     environment {
         FLASK_APP = 'app.py'
         CHROMEDRIVER_PATH = './chromedriver'
-        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
+        DOCKER_HUB_CREDENTIALS = credentials('dockerhub')
     }
 
     triggers {
