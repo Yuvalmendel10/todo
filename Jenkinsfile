@@ -51,3 +51,44 @@ pipeline {
         }
 
         stage('Run E2E tests') {
+            steps {
+                // Run Selenium tests against the running services
+                sh 'python e2e.py'
+            }
+        }
+
+        stage('Stop docker-compose') {
+            steps {
+                // Stop Docker Compose services
+                sh 'docker-compose down'
+            }
+        }
+
+        stage('Login to Docker Hub') {
+            steps {
+                // Login to Docker Hub
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh """
+                    echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin
+                    """
+                }
+            }
+        }
+
+        stage('Upload image to Docker Hub') {
+            steps {
+                // Push Docker image to Docker Hub
+                sh 'docker-compose push'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline succeeded! Clean up resources if needed.'
+        }
+        failure {
+            echo 'Pipeline failed! Clean up resources if needed.'
+        }
+    }
+}
