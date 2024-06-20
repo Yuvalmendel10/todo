@@ -8,9 +8,9 @@ pipeline {
     }
 
     triggers {
-          pollSCM('* * * * *')
-      }
-    
+        pollSCM('* * * * *')
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -18,62 +18,64 @@ pipeline {
                 checkout scm
             }
         }
-      
+
         stage('Install dependencies') {
             steps {
                 // Install Python dependencies from requirements.txt
-                sh 'pip install --no-cache-dir -r requirements.txt'
+                bat 'pip install --no-cache-dir -r requirements.txt'
             }
         }
-        
+
         stage('Download docker-compose') {
             steps {
                 // Download docker-compose file
-                sh 'wget https://raw.githubusercontent.com/your-username/your-repo/main/docker-compose.yaml'
+                bat 'curl -o docker-compose.yaml https://raw.githubusercontent.com/Yuvalmendel10/todo/main/docker-compose.yaml'
             }
         }
-        
+
         stage('Build docker-compose') {
             steps {
                 // Build Docker Compose services
-                sh 'docker-compose build'
+                bat 'docker-compose build'
             }
         }
-        
+
         stage('Run docker-compose') {
             steps {
                 // Start Docker Compose services
-                sh 'docker-compose up -d'
+                bat 'docker-compose up -d'
             }
         }
-        
+
         stage('Run E2E tests') {
             steps {
                 // Run Selenium tests against the running services
-                sh 'python e2e.py'
+                bat 'python e2e.py'
             }
         }
-        
+
         stage('Stop docker-compose') {
             steps {
                 // Stop Docker Compose services
-                sh 'docker-compose down'
+                bat 'docker-compose down'
             }
         }
-        
+
         stage('Login to Docker Hub') {
             steps {
                 // Login to Docker Hub
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+                    bat """
+                    echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin
+                    """
                 }
             }
         }
-        
+
         stage('Upload image to Docker Hub') {
             steps {
                 // Push Docker image to Docker Hub
-                sh 'docker-compose push'
+                bat 'docker-compose push'
             }
         }
     }
