@@ -19,13 +19,13 @@ pipeline {
             }
         }
 
-//         stage('Install dependencies') {
-//             steps {
-//                 // Install Python dependencies from requirements.txt
-//                 bat 'pip install --no-cache-dir -r requirements.txt'
-//             }
-//         }
-//
+        stage('Install dependencies') {
+            steps {
+                // Install Python dependencies from requirements.txt
+                bat 'pip install --no-cache-dir -r requirements.txt'
+            }
+        }
+
 //         stage('Download docker-compose') {
 //             steps {
 //                 // Download docker-compose file
