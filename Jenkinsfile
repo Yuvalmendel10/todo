@@ -15,7 +15,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the repository using the default SCM settings
                 checkout scm
             }
         }
@@ -31,42 +30,40 @@ pipeline {
             steps {
                 script {
                     bat "curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-Windows-x86_64.exe -o C:\\ProgramData\\docker-compose.exe"
-                    bat 'setx PATH "%PATH%;C:\\ProgramData"'
                 }
             }
         }
 
         stage('Build docker-compose') {
             steps {
-                // Build Docker Compose services
+            // Verify Docker is running
+                bat 'docker --version'
+                bat 'docker-compose --version'
+
                 bat 'docker-compose build'
             }
         }
 
         stage('Run docker-compose') {
             steps {
-                // Start Docker Compose services
                 bat 'docker-compose up -d'
             }
         }
 
         stage('Run E2E tests') {
             steps {
-                // Run Selenium tests against the running services
                 bat 'python e2e.py'
             }
         }
 
         stage('Stop docker-compose') {
             steps {
-                // Stop Docker Compose services
                 bat 'docker-compose down'
             }
         }
 
         stage('Login to Docker Hub') {
             steps {
-                // Login to Docker Hub
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     bat """
                     echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin
@@ -77,7 +74,6 @@ pipeline {
 
         stage('Upload image to Docker Hub') {
             steps {
-                // Push Docker image to Docker Hub
                 bat 'docker-compose push'
             }
         }
