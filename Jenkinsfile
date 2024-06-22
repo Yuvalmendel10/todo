@@ -41,7 +41,7 @@ pipeline {
                 bat 'docker --version'
                 bat 'docker-compose --version'
 
-                bat 'docker-compose build'
+                bat 'docker-compose --verbose build'
             }
         }
 
