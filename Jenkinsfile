@@ -37,10 +37,6 @@ pipeline {
 
         stage('Build docker-compose') {
             steps {
-            // Verify Docker is running
-                bat 'docker --version'
-                bat 'docker-compose --version'
-
                 bat 'docker-compose --verbose build'
             }
         }
