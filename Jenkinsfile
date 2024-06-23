@@ -7,6 +7,7 @@ pipeline {
         CHROMEDRIVER_PATH = 'chromedriver.exe'
         DOCKER_HUB_USERNAME = "yuvalmendel10"
         DOCKER_HUB_PASSWORD = "YuvalDocker10"
+        DOCKER_IMAGE_NAME = 'yuvalmendel10/wog:latest'
     }
 
     triggers {
@@ -61,7 +62,7 @@ pipeline {
 
         stage('Upload image to Docker Hub') {
             steps {
-                bat 'docker push yuvalmendel10/todo:latest'
+                bat 'docker-compose push'
             }
         }
     }
