@@ -20,13 +20,6 @@ pipeline {
             }
         }
 
-//         stage('Install dependencies') {
-//             steps {
-//                 // Install Python dependencies from requirements.txt
-//                 bat 'pip install --no-cache-dir -r requirements.txt'
-//             }
-//         }
-
         stage('Download docker compose') {
             steps {
                 script {
@@ -62,8 +55,7 @@ pipeline {
 
         stage('Login to Docker Hub') {
             steps {
-                bat 'docker login -u=DOCKER_HUB_USERNAME -p=DOCKER_HUB_PASSWORD'
-                }
+                bat "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
             }
         }
 
@@ -82,3 +74,4 @@ pipeline {
             echo 'Pipeline failed! Clean up resources if needed.'
         }
     }
+}
