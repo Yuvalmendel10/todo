@@ -61,7 +61,7 @@ pipeline {
 
         stage('Upload image to Docker Hub') {
             steps {
-                bat 'docker-compose push'
+                docker.image("todo_image:latest").push()
             }
         }
     }
