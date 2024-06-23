@@ -62,7 +62,7 @@ pipeline {
 
         stage('Upload image to Docker Hub') {
             steps {
-                bat "docker push yuvalmendel10/todo:latest"
+                bat 'docker-compose push'
             }
         }
     }
