@@ -61,7 +61,8 @@ pipeline {
 
         stage('Upload image to Docker Hub') {
             steps {
-                docker.image("todo_image:latest").push()
+            todo_image
+                bat 'docker push yuvalmendel10/todo:latest'
             }
         }
     }
