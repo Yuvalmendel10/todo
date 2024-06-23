@@ -5,7 +5,8 @@ pipeline {
         DOCKER_COMPOSE_VERSION = '1.26.0'
         FLASK_APP = 'app.py'
         CHROMEDRIVER_PATH = 'chromedriver.exe'
-        DOCKER_HUB_CREDENTIALS = credentials('dockerhub')
+        DOCKER_HUB_USERNAME = "yuvalmendel10"
+        DOCKER_HUB_PASSWORD = "YuvalDocker10"
     }
 
     triggers {
@@ -61,10 +62,7 @@ pipeline {
 
         stage('Login to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    bat """
-                    echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin
-                    """
+                bat 'docker login -u=DOCKER_HUB_USERNAME -p=DOCKER_HUB_PASSWORD'
                 }
             }
         }
