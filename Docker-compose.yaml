@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: yuvalmendel10/wog:latest
+    image: yuvalmendel10/todo:latest
     ports:
       - "5000:5000"
 
