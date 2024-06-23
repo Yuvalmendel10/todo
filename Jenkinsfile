@@ -82,4 +82,3 @@ pipeline {
             echo 'Pipeline failed! Clean up resources if needed.'
         }
     }
-}
