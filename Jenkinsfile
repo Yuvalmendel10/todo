@@ -44,6 +44,7 @@ pipeline {
 
         stage('Run E2E tests') {
             steps {
+                bat 'pip install --no-cache-dir -r requirements.txt'
                 bat 'python e2e.py'
             }
         }
