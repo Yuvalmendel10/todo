@@ -5,9 +5,11 @@ pipeline {
         DOCKER_COMPOSE_VERSION = '1.26.0'
         FLASK_APP = 'app.py'
         CHROMEDRIVER_PATH = 'chromedriver.exe'
+        // not secure - change it! -
         DOCKER_HUB_USERNAME = "yuvalmendel10"
         DOCKER_HUB_PASSWORD = "YuvalDocker10"
         DOCKER_IMAGE_NAME = 'yuvalmendel10/todo:latest'
+        KUBECONFIG_CREDENTIALS = credentials('kubeconfig')
     }
 
     triggers {
@@ -64,6 +66,18 @@ pipeline {
         stage('Upload image to Docker Hub') {
             steps {
                 bat 'docker-compose push'
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                    bat '''
+                        set KUBECONFIG=%KUBECONFIG%
+                        kubectl apply -f todo.yaml
+                        kubectl apply -f todo-service.yaml
+                    '''
+                }
             }
         }
     }
