@@ -75,7 +75,7 @@ pipeline {
                     bat '''
                         set KUBECONFIG=%KUBECONFIG%
                         kubectl apply -f "C:\\Users\\yuval\\PycharmProjects\\todo\\k8s\\deployments\\todo.yaml"
-                        kubectl apply -f "C:\\Users\yuval\\PycharmProjects\\todo\\k8s\\services\\todo-service.yaml"
+                        kubectl apply -f "C:\\Users\\yuval\\PycharmProjects\\todo\\k8s\\services\\todo-service.yaml"
                     '''
                 }
             }
