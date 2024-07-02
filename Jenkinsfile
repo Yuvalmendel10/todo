@@ -10,8 +10,8 @@ pipeline {
         DOCKER_HUB_PASSWORD = "YuvalDocker10"
         DOCKER_IMAGE_NAME = 'yuvalmendel10/todo:latest'
         // KUBECONFIG_CREDENTIALS = credentials('kubeconfig')
-        // GIT_REPO_URL = 'https://github.com/Yuvalmendel10/todo-argocd.git'
-        // GIT_BRANCH = 'main'
+        GIT_REPO_URL = 'https://github.com/Yuvalmendel10/todo-argocd.git'
+        GIT_BRANCH = 'main'
     }
 
     triggers {
