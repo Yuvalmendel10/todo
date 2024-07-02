@@ -8,7 +8,7 @@ pipeline {
         // not secure - change it! -
         DOCKER_HUB_USERNAME = "yuvalmendel10"
         DOCKER_HUB_PASSWORD = "YuvalDocker10"
-        DOCKER_IMAGE_NAME = 'yuvalmendel10/todo:latest'
+        DOCKER_IMAGE_NAME = 'yuvalmendel10/todo'
         // KUBECONFIG_CREDENTIALS = credentials('kubeconfig')
         GIT_REPO_URL = 'https://github.com/Yuvalmendel10/todo-argocd.git'
         GIT_BRANCH = 'main'
@@ -67,7 +67,11 @@ pipeline {
 
         stage('Upload image to Docker Hub') {
             steps {
-                bat 'docker-compose push'
+                // bat 'docker-compose push'
+                script {
+                    bat "docker tag ${DOCKER_IMAGE_NAME}:latest ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}"
+                    bat "docker push ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}"
+                }
             }
         }
 
@@ -76,14 +80,16 @@ pipeline {
             steps {
                 script {
                     bat """
-                        git clone ${GIT_REPO_URL} repo
+                        if not exist repo (
+                            git clone ${GIT_REPO_URL} repo
+                        )
                         cd repo
                         git checkout ${GIT_BRANCH}
                         powershell -Command "(Get-Content app/deployment.yaml) -replace 'image: ${DOCKER_IMAGE_NAME}:.*', 'image: ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}' | Set-Content app/deployment.yaml"
                         git config user.email "yuvalmen10@gmail.com"
                         git config user.name "Yuvalmendel10"
                         git add app/deployment.yaml
-                        git commit -m "Update image to ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}"
+                        git commit -m \"Update image to ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}\"
                         git push origin ${GIT_BRANCH}
                     """
                 }
