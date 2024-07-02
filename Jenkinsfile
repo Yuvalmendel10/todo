@@ -79,7 +79,7 @@ pipeline {
                         git clone ${GIT_REPO_URL} repo
                         cd repo
                         git checkout ${GIT_BRANCH}
-                        powershell -Command "(Get-Content path/to/deployment.yaml) -replace 'image: ${DOCKER_IMAGE_NAME}:.*', 'image: ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}' | Set-Content app/deployment.yaml"
+                        powershell -Command "(Get-Content app/deployment.yaml) -replace 'image: ${DOCKER_IMAGE_NAME}:.*', 'image: ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}' | Set-Content app/deployment.yaml"
                         git config user.email "yuvalmen10@gmail.com"
                         git config user.name "Yuvalmendel10"
                         git add app/deployment.yaml
