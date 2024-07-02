@@ -9,7 +9,9 @@ pipeline {
         DOCKER_HUB_USERNAME = "yuvalmendel10"
         DOCKER_HUB_PASSWORD = "YuvalDocker10"
         DOCKER_IMAGE_NAME = 'yuvalmendel10/todo:latest'
-        KUBECONFIG_CREDENTIALS = credentials('kubeconfig')
+        // KUBECONFIG_CREDENTIALS = credentials('kubeconfig')
+        // GIT_REPO_URL = 'https://github.com/Yuvalmendel10/todo-argocd.git'
+        // GIT_BRANCH = 'main'
     }
 
     triggers {
@@ -69,17 +71,27 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+
+         stage('Update Argo CD Git Repository') {
             steps {
-                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-                    bat '''
-                        set KUBECONFIG=%KUBECONFIG%
-                        kubectl apply -f "C:\\Users\\yuval\\PycharmProjects\\todo\\k8s\\deployments\\todo.yaml"
-                        kubectl apply -f "C:\\Users\\yuval\\PycharmProjects\\todo\\k8s\\services\\todo-service.yaml"
-                    '''
+                script {
+                    bat """
+                        git clone ${GIT_REPO_URL} repo
+                        cd repo
+                        git checkout ${GIT_BRANCH}
+                        powershell -Command "(Get-Content path/to/deployment.yaml) -replace 'image: ${DOCKER_IMAGE_NAME}:.*', 'image: ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}' | Set-Content app/deployment.yaml"
+                        git config user.email "yuvalmen10@gmail.com"
+                        git config user.name "Yuvalmendel10"
+                        git add app/deployment.yaml
+                        git commit -m "Update image to ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}"
+                        git push origin ${GIT_BRANCH}
+                    """
                 }
             }
         }
+
+
+
     }
 
     post {
